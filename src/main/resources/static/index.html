@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DropZone - Local File Sharing</title>
+    <meta name="description" content="Share files instantly with devices on your local network using WebRTC.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <h1>DropZone</h1>
+            </div>
+            <div class="user-info" id="myInfo">
+                <span class="user-name">You</span>
+            </div>
+        </header>
+
+        <main>
+            <div class="radar-container">
+                <div class="radar">
+                    <div class="radar-ping"></div>
+                </div>
+                <div class="me-node">
+                    <div class="avatar" id="myAvatar"></div>
+                    <span id="myNameLabel">You</span>
+                </div>
+                <div id="peers-container" class="peers">
+                    <!-- Peer nodes will be appended here -->
+                </div>
+            </div>
+
+            <div class="instruction">
+                <p>Drag & Drop a file, or <b>Tap a device</b> to send.</p>
+            </div>
+        </main>
+        
+        <!-- File Input (Hidden) -->
+        <input type="file" id="fileInput" style="display: none;" multiple>
+        
+        <!-- Modals and Toasts -->
+        <div id="transfer-modal" class="modal">
+            <div class="modal-content glassmorphism">
+                <h3 id="transfer-title">Incoming File</h3>
+                <p id="transfer-desc">Receiving file from Bob...</p>
+                <div class="progress-bar">
+                    <div class="progress" id="transfer-progress"></div>
+                </div>
+                <div class="actions" id="transfer-actions">
+                    <button class="btn btn-secondary" id="btn-cancel">Cancel</button>
+                    <button class="btn btn-primary" id="btn-accept" style="display: none;">Accept</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Drag overlay -->
+    <div id="drag-overlay" class="drag-overlay">
+        <div class="drag-content">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+            <h2>Drop file to share</h2>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
