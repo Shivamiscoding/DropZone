@@ -277,6 +277,7 @@ function sendFileData(channel, file) {
             readSlice(offset);
         } else {
             showToast('File sent successfully!');
+            addToHistory(file.name, 'sent');
         }
     };
     
@@ -313,6 +314,8 @@ function finishReceive() {
         
         // Cleanup after a short delay
         setTimeout(() => URL.revokeObjectURL(pendingBlobUrl), 1000);
+        
+        addToHistory(pendingFileName, 'received');
         
         incomingFileInfo = null;
         incomingFileData = [];
@@ -385,3 +388,39 @@ function showToast(msg) {
 
 // Start
 connectSignaling();
+
+function addToHistory(filename, type) {
+    const historyContainer = document.getElementById('history-container');
+    const emptyState = document.getElementById('empty-history');
+    if (emptyState) {
+        emptyState.style.display = 'none';
+    }
+    
+    const item = document.createElement('div');
+    item.className = 'history-item';
+    
+    const icon = document.createElement('div');
+    icon.className = 'history-icon';
+    icon.innerHTML = type === 'sent' ? '↑' : '↓';
+    
+    const details = document.createElement('div');
+    details.className = 'history-details';
+    
+    const nameSpan = document.createElement('span');
+    nameSpan.className = 'history-filename';
+    nameSpan.textContent = filename;
+    
+    const metaSpan = document.createElement('span');
+    metaSpan.className = 'history-meta';
+    const now = new Date();
+    metaSpan.textContent = `${type === 'sent' ? 'Sent' : 'Received'} at ${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
+    
+    details.appendChild(nameSpan);
+    details.appendChild(metaSpan);
+    
+    item.appendChild(icon);
+    item.appendChild(details);
+    
+    // insert at top
+    historyContainer.insertBefore(item, historyContainer.firstChild);
+}

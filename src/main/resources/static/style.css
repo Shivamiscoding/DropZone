@@ -534,3 +534,92 @@ body {
 .btn {
     @extend .liquid-btn; /* Will adapt via JS */
 }
+
+/* Split Layout & History */
+.content-split {
+    display: flex;
+    gap: 20px;
+    height: 100%;
+    min-height: 300px;
+}
+
+.main-panel {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+}
+
+.history-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.glass-panel h3 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #00f2fe;
+    font-weight: 600;
+}
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.empty-history {
+    text-align: center;
+    color: #88a3c8;
+    padding: 20px 0;
+    font-style: italic;
+}
+
+.history-item {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: all 0.3s ease;
+}
+
+.history-item:hover {
+    background: rgba(0, 242, 254, 0.1);
+    border-color: #00f2fe;
+}
+
+.history-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(0, 242, 254, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #00f2fe;
+    font-size: 18px;
+}
+
+.history-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.history-filename {
+    font-weight: 600;
+    color: #e0f7fa;
+    font-size: 14px;
+    word-break: break-all;
+}
+
+.history-meta {
+    font-size: 12px;
+    color: #88a3c8;
+}

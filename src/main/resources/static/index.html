@@ -44,13 +44,26 @@
                 </button>
             </div>
 
-            <div class="glass-panel">
-                <div id="peers-container" class="peers-grid">
-                    <!-- Peers will be injected here as liquid cards -->
-                    <div class="empty-state" id="empty-state">
-                        <div class="empty-ripple"></div>
-                        <h4>Waiting for devices...</h4>
-                        <p>No other peers have joined the flow yet.</p>
+            <div class="content-split">
+                <div class="glass-panel main-panel">
+                    <h3>Active Devices</h3>
+                    <div id="peers-container" class="peers-grid">
+                        <!-- Peers will be injected here as liquid cards -->
+                        <div class="empty-state" id="empty-state">
+                            <div class="empty-ripple"></div>
+                            <h4>Waiting for devices...</h4>
+                            <p>No other peers have joined the flow yet.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel history-panel">
+                    <h3>Recent Streams</h3>
+                    <div id="history-container" class="history-list">
+                        <div class="empty-history" id="empty-history">
+                            <p>No files transferred yet.</p>
+                        </div>
+                        <!-- History items will be injected here -->
                     </div>
                 </div>
             </div>
