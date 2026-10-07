@@ -70,45 +70,59 @@ function connectSignaling() {
 function renderPeers() {
     peersContainer.innerHTML = '';
     
-    const angleStep = (2 * Math.PI) / peers.length;
-    const radius = 120; // Distance from center
+    if (peers.length === 0) {
+        peersContainer.innerHTML = `
+            <div class="blankslate" id="empty-state">
+                <svg height="24" class="blankslate-icon" viewBox="0 0 16 16" version="1.1" width="24" fill="currentColor">
+                    <path d="M10.68 11.74a6 6 0 0 1-7.922-8.982 6 6 0 0 1 8.982 7.922l3.04 3.04a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215ZM11.5 7a4.499 4.499 0 1 0-8.997 0A4.499 4.499 0 0 0 11.5 7Z"></path>
+                </svg>
+                <h4>Waiting for peers...</h4>
+                <p>No other devices are connected to this local DropZone yet.</p>
+            </div>
+        `;
+        return;
+    }
     
-    peers.forEach((peer, index) => {
-        const angle = index * angleStep - Math.PI / 2; // start from top
-        const x = Math.cos(angle) * radius;
-        const y = Math.sin(angle) * radius;
+    peers.forEach((peer) => {
+        const row = document.createElement('div');
+        row.className = 'box-row';
         
-        const peerNode = document.createElement('div');
-        peerNode.className = 'peer-node';
-        peerNode.style.transform = `translate(${x}px, ${y}px)`;
+        const info = document.createElement('div');
+        info.className = 'peer-info';
         
         const avatar = document.createElement('div');
         avatar.className = 'peer-avatar';
-        avatar.textContent = peer.name.charAt(0);
+        avatar.textContent = peer.name.charAt(0).toUpperCase();
         
         const name = document.createElement('span');
         name.className = 'peer-name';
         name.textContent = peer.name;
-
+        
+        info.appendChild(avatar);
+        info.appendChild(name);
+        
+        const actions = document.createElement('div');
+        
         const sendBtn = document.createElement('button');
-        sendBtn.className = 'peer-send-btn';
+        sendBtn.className = 'btn';
         sendBtn.textContent = 'Send File';
         
-        peerNode.appendChild(avatar);
-        peerNode.appendChild(name);
-        peerNode.appendChild(sendBtn);
+        actions.appendChild(sendBtn);
+        
+        row.appendChild(info);
+        row.appendChild(actions);
         
         // Drag events
-        peerNode.addEventListener('dragover', (e) => {
+        row.addEventListener('dragover', (e) => {
             e.preventDefault();
-            peerNode.classList.add('drag-over');
+            row.classList.add('drag-over');
         });
-        peerNode.addEventListener('dragleave', (e) => {
-            peerNode.classList.remove('drag-over');
+        row.addEventListener('dragleave', (e) => {
+            row.classList.remove('drag-over');
         });
-        peerNode.addEventListener('drop', (e) => {
+        row.addEventListener('drop', (e) => {
             e.preventDefault();
-            peerNode.classList.remove('drag-over');
+            row.classList.remove('drag-over');
             
             if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
                 const file = e.dataTransfer.files[0];
@@ -129,7 +143,7 @@ function renderPeers() {
             input.click();
         });
         
-        peersContainer.appendChild(peerNode);
+        peersContainer.appendChild(row);
     });
 }
 
@@ -359,6 +373,10 @@ function hideModal() {
 }
 
 btnCancel.onclick = hideModal;
+const btnCloseModal = document.getElementById('btn-close-modal');
+if (btnCloseModal) {
+    btnCloseModal.onclick = hideModal;
+}
 
 function showToast(msg) {
     // simple alert or create custom toast

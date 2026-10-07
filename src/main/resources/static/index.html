@@ -3,73 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DropZone - Local File Sharing</title>
+    <title>DropZone - Liquid Flow</title>
     <meta name="description" content="Share files instantly with devices on your local network using WebRTC.">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="app-container">
-        <header>
+    <div class="water-background">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+    
+    <div class="glass-app">
+        <header class="glass-header">
             <div class="logo">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="url(#liquidGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <defs>
+                        <linearGradient id="liquidGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#00f2fe" />
+                            <stop offset="100%" stop-color="#4facfe" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M12 2.5a5.5 5.5 0 0 1 5.5 5.5c0 3-5.5 13.5-5.5 13.5S6.5 11 6.5 8A5.5 5.5 0 0 1 12 2.5z"></path>
                 </svg>
                 <h1>DropZone</h1>
             </div>
-            <div class="user-info" id="myInfo">
-                <span class="user-name">You</span>
+            <div class="user-profile">
+                <div class="liquid-avatar" id="myAvatar"></div>
+                <span id="myNameLabel">You</span>
             </div>
         </header>
 
-        <main>
-            <div class="radar-container">
-                <div class="radar">
-                    <div class="radar-ping"></div>
-                </div>
-                <div class="me-node">
-                    <div class="avatar" id="myAvatar"></div>
-                    <span id="myNameLabel">You</span>
-                </div>
-                <div id="peers-container" class="peers">
-                    <!-- Peer nodes will be appended here -->
-                </div>
+        <main class="main-content">
+            <div class="action-bar">
+                <h2>Local Network Flow</h2>
+                <button class="liquid-btn" onclick="document.getElementById('fileInput').click()">
+                    <span>Upload File</span>
+                    <div class="wave"></div>
+                </button>
             </div>
 
-            <div class="instruction">
-                <p>Drag & Drop a file, or <b>Tap a device</b> to send.</p>
+            <div class="glass-panel">
+                <div id="peers-container" class="peers-grid">
+                    <!-- Peers will be injected here as liquid cards -->
+                    <div class="empty-state" id="empty-state">
+                        <div class="empty-ripple"></div>
+                        <h4>Waiting for devices...</h4>
+                        <p>No other peers have joined the flow yet.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="instruction-text">
+                <p>Drag & Drop a file directly onto a device card to stream.</p>
             </div>
         </main>
-        
-        <!-- File Input (Hidden) -->
-        <input type="file" id="fileInput" style="display: none;" multiple>
-        
-        <!-- Modals and Toasts -->
-        <div id="transfer-modal" class="modal">
-            <div class="modal-content glassmorphism">
-                <h3 id="transfer-title">Incoming File</h3>
+    </div>
+    
+    <!-- File Input (Hidden) -->
+    <input type="file" id="fileInput" style="display: none;" multiple>
+    
+    <!-- Modals and Toasts -->
+    <div id="transfer-modal" class="modal">
+        <div class="glass-modal">
+            <div class="modal-header">
+                <h3 id="transfer-title">Incoming Stream</h3>
+                <button class="close-btn" id="btn-close-modal">✕</button>
+            </div>
+            <div class="modal-body">
                 <p id="transfer-desc">Receiving file from Bob...</p>
-                <div class="progress-bar">
-                    <div class="progress" id="transfer-progress"></div>
-                </div>
-                <div class="actions" id="transfer-actions">
-                    <button class="btn btn-secondary" id="btn-cancel">Cancel</button>
-                    <button class="btn btn-primary" id="btn-accept" style="display: none;">Accept</button>
+                <div class="liquid-progress-container">
+                    <div class="liquid-progress" id="transfer-progress">
+                        <div class="liquid-fill"></div>
+                    </div>
                 </div>
             </div>
+            <div class="modal-footer" id="transfer-actions">
+                <button class="btn btn-outline" id="btn-cancel">Cancel</button>
+                <button class="liquid-btn" id="btn-accept" style="display: none;">Accept</button>
+            </div>
         </div>
-
     </div>
 
     <!-- Drag overlay -->
     <div id="drag-overlay" class="drag-overlay">
         <div class="drag-content">
-            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                <polyline points="17 8 12 3 7 8"></polyline>
-                <line x1="12" y1="3" x2="12" y2="15"></line>
-            </svg>
-            <h2>Drop file to share</h2>
+            <div class="drop-ripple"></div>
+            <h2>Release to merge files into flow</h2>
         </div>
     </div>
 
